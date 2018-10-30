@@ -1,8 +1,9 @@
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.BitSet;
 import java.util.Random;
 
 public class OneTimePad {
@@ -22,20 +23,38 @@ public class OneTimePad {
         return ciphered;
     }
 
-    public void saveToFile(byte[] cipheredText, String filePath){
-        //byte bytes[] = cipheredText.getBytes();
-        int lastIndex = filePath.lastIndexOf('.');
-        String ext = filePath.substring(lastIndex);
-        System.out.println(ext);
-        Path path_txt = Paths.get("C:\\Users\\Łukasz\\Desktop\\pliczek.txt");
-        Path path_png = Paths.get("C:\\Users\\Łukasz\\Desktop\\pliczek.png");
+    public void saveToFile(byte[] cipheredText, String filePath, String filetoPath){
+        //int lastIndex = filePath.lastIndexOf('.');
+        //String ext = filePath.substring(lastIndex);       to na razie zostawiam zakomentowane bo nie uzywam i to tylko taki bajer jakbyco i nie działa :((((
+        Path path = Paths.get(filetoPath);
+        //String extout = filetoPath.substring(lastIndex);
+        //if(!ext.equals(extout)) System.out.println("PODANO ZLE ROZSZERZENIE PLIKU");
         try{
-            if(ext.equals(".txt")) Files.write(path_txt, cipheredText);
-            else Files.write(path_png, cipheredText);
+            Files.write(path, cipheredText);
         }
         catch (IOException e) {
             System.out.println("Exception Occurred:");
         }
+    }
+
+    public byte[] readFromFile(String filePath){
+        File plik = new File(filePath);
+        byte[] fileContent = new byte[(int) plik.length()];
+        FileInputStream fin = null;
+        try{
+            fin = new FileInputStream(plik);
+            fin.read(fileContent);
+        }
+        catch (Exception ae){
+            System.out.println("Blad " + ae);
+        }
+        try {
+            fin.close();
+        }
+        catch (Exception ea){
+            System.out.println("Blad " + ea);
+        }
+        return fileContent;
     }
 
 }
