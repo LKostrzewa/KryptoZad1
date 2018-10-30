@@ -16,10 +16,8 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        //Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
         window=primaryStage;
         window.setTitle("Hello World");     //cale te trzy linijki co jest window to tworzymy jakby nasze okno
-        //primaryStage.setScene(new Scene(root, 300, 275));
 
         GridPane grid = new GridPane();     //tworzymy nową siatkę żeby ładnie mozna było porozkładać wszystkie elementy
         grid.setPadding(new Insets(10, 10, 10, 10));        //pokazujemy na ile elementow dzielimy siatke
@@ -57,31 +55,18 @@ public class Main extends Application {
         TextField decipherOutput = new TextField();
         GridPane.setConstraints(decipherOutput, 0, 7);      //tworzymy nowe pole tekstowe i mowimy gdzie ma sie znajdowac
 
-        OneTimePad cipherInput = new OneTimePad();      //tworzymy nowy obiekt klasy onetimepad czyli naszego algorytmu
-        OneTimePad2 test = new OneTimePad2();
+        OneTimePad test = new OneTimePad();
 
         buttonInput.setOnAction(e -> {                                              //tutaj beda rzeczy co sie beda dzialy po wcisnieciu guzika ktory zwie sie button imput
-            cipherInput.setInput(userInput.getText());//ustawaimy w naszym obiekcie typu onetimepad tekst jawny jako zawartosc pola tekstowego co sie zwie userinput
-            String inputinput = cipherInput.getInput();
-            //System.out.println(cipherInput.getInput());
-            String keykey = cipherInput.getKey();                                                   //losujemy se klucza
-            //System.out.println(cipherInput.key);
-            //String zaszyfrowany = cipherInput.cipher(cipherInput.getInput());
-            //System.out.println(zaszyfrowany);
-           // System.out.println(cipherInput.cipher(zaszyfrowany));
-            byte[] plainplain = inputinput.getBytes();
-            byte[] klucz = keykey.getBytes();
-            byte[] zaszyfrowany = test.cioher(plainplain, klucz);
-            String ss = new String(zaszyfrowany);
-            cipherOutput.setText(ss);
-            byte[] odszyfrowany = test.cioher(zaszyfrowany, klucz);
+            String input = userInput.getText();
+            byte[] plain = input.getBytes();
+            byte[] randKey = test.getKey(plain);
+            byte[] cipheredB = test.cipher(plain, randKey);
+            String cipheredS = new String(cipheredB);
+            cipherOutput.setText(cipheredS);
+            byte[] odszyfrowany = test.cipher(cipheredB, randKey);
             String ss2 = new String(odszyfrowany);
             decipherOutput.setText(ss2);
-            //cipherOutput.setText(cipherInput.cipher(cipherInput.getInput()));       //szyfrujemy i wyswietlamy
-            //cipherInput.saveToFile();
-            //System.out.println(cipherInput.cipher(cipherInput.getInput()));
-            //decipherOutput.setText(cipherInput.cipher(cipherOutput.getText()));     //odszyfrujemy i wyswietlamy
-           // System.out.println(cipherInput.cipher(cipherOutput.getText()));
         });
 
         buttonFile.setOnAction(e -> {
@@ -102,21 +87,14 @@ public class Main extends Application {
                 System.out.println("Blad " + ea);
             }
             byte[] keykey = test.getKey(fileContent);
-            //byte[] klucz = keykey.getBytes();
-            //cipherInput.setInput(cipherInput.setFileInput(fileInput.getText()));   // To samo zo wyżej, tylko czytam z okienka fileInput
-            byte[] zaszyfrowany = test.cioher(fileContent, keykey);
+            byte[] zaszyfrowany = test.cipher(fileContent, keykey);
             String ss = new String(zaszyfrowany);
             cipherOutput.setText(ss);
-            byte[] odszyfrowany = test.cioher(zaszyfrowany, keykey);
+            byte[] odszyfrowany = test.cipher(zaszyfrowany, keykey);
             String ss2 = new String(odszyfrowany);
             decipherOutput.setText(ss2);
             test.saveToFile(odszyfrowany, fileInput.getText());
 
-
-            /*cipherInput.getKey();
-            cipherOutput.setText(cipherInput.cipher(cipherInput.getInput()));
-            decipherOutput.setText(cipherInput.cipher(cipherOutput.getText()));
-            cipherInput.saveToFile(decipherOutput.getText(),fileInput.getText());*/
 
         });
 
