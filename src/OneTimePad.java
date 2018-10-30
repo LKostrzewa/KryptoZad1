@@ -97,8 +97,8 @@ public class OneTimePad {
         int lastIndex = filePath.lastIndexOf('.');
         String ext = filePath.substring(lastIndex);
         System.out.println(ext);
-        Path path_txt = Paths.get("C:\\Users\\Łukasz\\Desktop\\pliczek.txt");
-        Path path_png = Paths.get("C:\\Users\\Łukasz\\Desktop\\pliczek.jpg");
+        Path path_txt = Paths.get("/Users/pawelbialek/Desktop/pliczek.txt");
+        Path path_png = Paths.get("/Users/pawelbialek/Desktop/pliczek.jpg");
         try{
             if(ext.equals(".txt")) Files.write(path_txt, bytes);
             else Files.write(path_png, bytes);
